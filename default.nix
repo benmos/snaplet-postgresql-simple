@@ -7,7 +7,8 @@
 cabal.mkDerivation (self: {
   pname = "snaplet-postgresql-simple";
   version = "0.5";
-  sha256 = "0pzn0lg1slrllrrx1n9s1kp1pmq2ahrkjypcwnnld8zxzvz4g5jm";
+  src = ./.;
+  # sha256 = "0pzn0lg1slrllrrx1n9s1kp1pmq2ahrkjypcwnnld8zxzvz4g5jm";
   buildDepends = [
     clientsession configurator errors MonadCatchIOTransformers mtl
     postgresqlSimple resourcePoolCatchio snap text transformers
