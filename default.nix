@@ -4,7 +4,24 @@
 , unorderedContainers
 }:
 
-cabal.mkDerivation (self: {
+cabal.mkDerivation (self:
+let
+  lib         = self.stdenv.lib;
+  isWithin    = p: dirPath: lib.hasPrefix (toString dirPath) (toString p);
+  cabalFilter = path: type: (
+                               !(lib.hasSuffix "~" (toString path)) &&
+                               !(lib.hasSuffix "#" (toString path)) &&
+                               !(lib.hasPrefix "." (toString path)) &&
+                               (
+                                   baseNameOf path == "snaplet-postgresql-simple.cabal" ||
+                                   baseNameOf path == "LICENSE"                         ||
+                                   baseNameOf path == "Setup.hs"                        ||
+                                   isWithin   path ./resources                          ||
+                                   isWithin   path ./src                                ||
+                                   false
+                               )
+                            );
+in {
   pname = "snaplet-postgresql-simple";
   version = "0.5";
   src = ./.;
