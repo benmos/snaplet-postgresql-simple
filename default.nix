@@ -8,16 +8,16 @@ cabal.mkDerivation (self:
 let
   lib         = self.stdenv.lib;
   isWithin    = p: dirPath: lib.hasPrefix (toString dirPath) (toString p);
-  cabalFilter = path: type: (
-                               !(lib.hasSuffix "~" (toString path)) &&
-                               !(lib.hasSuffix "#" (toString path)) &&
-                               !(lib.hasPrefix "." (toString path)) &&
+  cabalFilter = path: type: (let pathBaseName = baseNameOf path; in
+                               !(lib.hasSuffix "~" pathBaseName) &&
+                               !(lib.hasSuffix "#" pathBaseName) &&
+                               !(lib.hasPrefix "." pathBaseName) &&
                                (
-                                   baseNameOf path == "snaplet-postgresql-simple.cabal" ||
-                                   baseNameOf path == "LICENSE"                         ||
-                                   baseNameOf path == "Setup.hs"                        ||
-                                   isWithin   path ./resources                          ||
-                                   isWithin   path ./src                                ||
+                                   pathBaseName == "snaplet-postgresql-simple.cabal" ||
+                                   pathBaseName == "LICENSE"                         ||
+                                   pathBaseName == "Setup.hs"                        ||
+                                   isWithin path ./resources                         ||
+                                   isWithin path ./src                               ||
                                    false
                                )
                             );
