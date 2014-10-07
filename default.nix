@@ -24,7 +24,7 @@ let
 in {
   pname = "snaplet-postgresql-simple";
   version = "0.5";
-  src = ./.;
+  src = builtins.filterSource cabalFilter ./.;
   # sha256 = "0pzn0lg1slrllrrx1n9s1kp1pmq2ahrkjypcwnnld8zxzvz4g5jm";
   buildDepends = [
     clientsession configurator errors MonadCatchIOTransformers mtl
